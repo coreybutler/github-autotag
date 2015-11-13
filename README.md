@@ -23,7 +23,8 @@ var AutoTagger = require('github-autotag')
 AutoTagger.monitor({
   repo: process.env.GITHUB_REPO,
   user: process.env.GITHUB_USER,
-  pass: process.env.GITHUB_PASSWORD
+  pass: process.env.GITHUB_PASSWORD,
+  branch: process.env.GITHUB_REPO_BRANCH // optional, defaults to master
 }, function (err, tag) {
   if (err) {
     console.error(err)
