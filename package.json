@@ -1,7 +1,7 @@
 {
   "name": "github-autotag",
   "version": "1.0.4",
-  "description": "Monitor package.json for version changes and auto-tag new releases.",
+  "description": "Monitor package.json for version changes and auto-tag it.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
