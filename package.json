@@ -1,6 +1,6 @@
 {
   "name": "github-autotag",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Monitor package.json for version changes and auto-tag new releases.",
   "main": "index.js",
   "scripts": {
@@ -23,6 +23,11 @@
   },
   "homepage": "https://github.com/coreybutler/github-autotag#readme",
   "dependencies": {
-    "github": "^0.2.4"
+    "github": "^0.2.4",
+    "musthave": "^1.0.1",
+    "request": "^2.65.0"
+  },
+  "devDependencies": {
+    "localenvironment": "^1.0.0"
   }
 }

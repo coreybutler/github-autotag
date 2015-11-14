@@ -24,7 +24,10 @@ AutoTagger.monitor({
   repo: process.env.GITHUB_REPO,
   user: process.env.GITHUB_USER,
   pass: process.env.GITHUB_PASSWORD,
-  branch: process.env.GITHUB_REPO_BRANCH // optional, defaults to master
+  email: process.env.EMAIL, // This is required to create a new tag
+  before: 'original SHA', // See below
+  after: 'commit SHA', // See below
+  branch: process.env.GITHUB_REPO_BRANCH, // optional, defaults to master
 }, function (err, tag) {
   if (err) {
     console.error(err)
@@ -35,3 +38,34 @@ AutoTagger.monitor({
   }
 })
 ```
+
+## SHA values?
+
+The SHA values are typically delivered in the payload of a webhook. For example:
+
+```js
+{
+  "ref": "refs/heads/master",
+  "before": "911eb1d755776f31bbf1bda4d798317ea6cdf907",
+  "after": "067ac29825b69a2abd9f5ce5ef2795434b700ea1",
+  "created": false,
+  "deleted": false,
+  "forced": false,
+  "base_ref": null,
+  "compare": "https://github.com/coreybutler/github-autotag/compare/911eb1d75577...067ac29825b6",
+  "commits": [
+    {
+      "id": "067ac29825b69a2abd9f5ce5ef2795434b700ea1",
+      "distinct": true,
+      "message": "Test code",
+      "timestamp": "2015-11-13T17:49:09-06:00",
+      "url": "https://github.com/coreybutler/github-autotag/commit/067ac29825b69a2abd9f5ce5ef2795434b700ea1",
+      "author": {
+        "name": "Corey Butler"
+      }
+    }
+  ]
+}
+```
+
+The `before` and `after` contain the values necessary to identify package.json version updates.

@@ -2,6 +2,7 @@
 !.gitignore
 !.npmignore
 _*
+env.json
 
 # Logs
 logs
