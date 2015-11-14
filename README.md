@@ -1,4 +1,4 @@
-# github-autotag
+# Github Autotag Utility
 
 Monitor package.json for version changes and auto-tag new releases.
 
