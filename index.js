@@ -49,7 +49,9 @@ let mod = {
       repo: cfg.repo.split('/')[1],
       sha: cfg.after
     }, function (err, data) {
-      if (err) throw err
+      if (err) {
+        callback && callback
+      }
       
       // Find the package.json
       let pkg = data.files.filter(function(f){
@@ -79,7 +81,13 @@ let mod = {
           })
           break
         case 'modified':
-          console.log('modified')
+          mod.getUrl(pkg.raw_url, function (res) {
+            if (res.statusCode !== 200) {
+              throw new Error('Could not retrieve package.json from ' + pkg.raw_url + ' (Status: ' + res.statusCode + ')')
+            }
+            let data = JSON.parse(res.body)
+            mod.createTag(data.version, callback)
+          })
           break
         case 'deleted':
           throw new Error('The package.json file was removed! Perhaps this service shouldn\'t be running anymore? Perhaps this was a mistake?')
