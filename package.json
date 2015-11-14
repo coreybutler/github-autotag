@@ -1,6 +1,6 @@
 {
   "name": "github-autotag",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Monitor package.json for version update and auto-tag it.",
   "main": "index.js",
   "scripts": {

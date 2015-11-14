@@ -54,10 +54,6 @@ let mod = {
       }
       
       // Find the package.json
-      try {
-        data = JSON.parse(data)
-      } catch (e) {}
-      console.log(data)
       let pkg = data.files.filter(function(f){
         return f.filename === 'package.json'
       })
