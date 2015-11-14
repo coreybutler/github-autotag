@@ -69,3 +69,50 @@ The SHA values are typically delivered in the payload of a webhook. For example:
 ```
 
 The `before` and `after` contain the values necessary to identify package.json version updates.
+
+# Create a Worker
+
+We use the following code as an iron.io worker.
+
+```js
+var worker = require('iron_worker')
+var payload = worker.params()
+var cfg = worker.config()
+var AutoTagger = require('github-autotag')
+
+if (payload.ref.indexOf('refs/tags/') >= 0) {
+  console.log('IGNORED:')
+  console.log('This commit is a tag. No need to tag it again.')
+  return
+}
+
+AutoTagger.monitor({
+  repo: payload.repository.full_name,
+  user: cfg.GITHUB_USER,
+  pass: cfg.GITHUB_PASSWORD,
+  email: cfg.EMAIL,
+  before: payload.before,
+  after: payload.after
+}, function (err, tag) {
+  if (err) {
+    console.error(err)
+  } else if (tag) {
+    console.log('New tag created:', tag)
+  } else {
+    console.log('No update necessary.')
+  }
+})
+```
+
+To use this, acquire the iron.io webhook link and add it to your Github repo webhooks (Push only).
+
+### Example
+
+Check out [NGN Chassis](http://github.com/ngnjs/chassis-lib) as an example of how we use this.
+NGN Chassis uses Travis-CI to run tests. It is also capable of monitoring Github tags that
+conform to semantic versioning. As a result, we are able to use github-autotag to run as a
+part of Travis CI process. When github-autotag creates the new version tag, the Travis CI 
+deployment process automatically creates a new Github release. This in turn is recognized by
+the jsdelivr CDN, which updates the CDN.
+
+It's kind of a game of dominoes, but it completely automates the CI/CD process for us.
