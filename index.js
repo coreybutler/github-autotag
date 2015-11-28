@@ -17,20 +17,20 @@ let mod = {
       password: cfg.pass
     })
   },
-  
+
   monitor: function (config, callback) {
     cfg = config || {}
     cfg.branch = cfg.branch || 'master'
-    
+
     // Make sure credentials are available
     mh.hasAll(cfg, 'user', 'pass', 'repo', 'email', 'before', 'after')
-    
+
     cfg.repo = cfg.repo.replace(/\\/gi,'/')
-    
+
     if (cfg.repo.split('/').length === 1) {
       cfg.repo = cfg.user + '/' + cfg.repo
     }
-    
+
     // Initialize API Connection
     github = new GitHubApi({
       version: "3.0.0",
@@ -43,7 +43,7 @@ let mod = {
         "user-agent": "node-github-autotag"
       }
     })
-    
+
     github.repos.getCommit({
       user: cfg.repo.split('/')[0],
       repo: cfg.repo.split('/')[1],
@@ -52,12 +52,13 @@ let mod = {
       if (err) {
         callback && callback
       }
-      
+
       // Find the package.json
+      console.log(data)
       let pkg = data.files.filter(function(f){
         return f.filename === 'package.json'
       })
-      
+
       // If the package.json was not a part of the update,
       // there will be no need to create a new tag.
       if (pkg.length === 0) {
@@ -65,13 +66,13 @@ let mod = {
         return
       }
       pkg = pkg[0]
-      
+
       // If the package.json was modified, check to see if there
       // is a new version or if the file was just added.
       switch (pkg.status.trim().toLowerCase()) {
         case 'added':
           console.log('New package.json detected. Retrieving version.')
-        
+
           mod.getUrl(pkg.raw_url, function (res) {
             if (res.statusCode !== 200) {
               throw new Error('Could not retrieve package.json from ' + pkg.raw_url + ' (Status: ' + res.statusCode + ')')
@@ -95,7 +96,7 @@ let mod = {
       }
     })
   },
-  
+
   createTag: function (tag, callback) {
     // First check to see if a tag exists for this
     github.repos.getTags({
@@ -123,7 +124,7 @@ let mod = {
         offset = offset[0]
         offset = offset.length === 1 ? '0' + offset : offset
         offset = (!dir ? '+' : '-') + offset + ':' + partial
-        
+
         github.gitdata.createTag({
           user: cfg.repo.split('/')[0],
           repo: cfg.repo.split('/')[1],
@@ -159,7 +160,7 @@ let mod = {
       }
     })
   },
-  
+
   getUrl: function (url, callback) {
     let uri = require('url').parse(url)
     let options = {
@@ -186,7 +187,7 @@ let mod = {
           callback(res)
         })
       }
-    })    
+    })
     req.end()
   }
 }
