@@ -3,6 +3,7 @@
 !.npmignore
 _*
 env.json
+!.travis.yml
 
 # Logs
 logs

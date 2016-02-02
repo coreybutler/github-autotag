@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+- 4.2.6
+notifications:
+  hipchat:
+    rooms:
+      secure: G86agoGJWFpnW+DIwoY0iZjTi4858qgZUnVSFKkz39zfeIFm/lnmcBG3MqLMzvkjFrj+qoofqAUUbycvA8ZE7FbX6+rOfChPpco14LM/cPWrltNuLEYGHA5ikLTrGXOQpy6HFx0MFxhDQc5GFZWoNOVZb8bRogyv1PZwS2AG7tQ=
+    template:
+    - "%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}"
+    format: html
+deploy:
+  provider: npm
+  email: corey@coreybutler.com
+  api_key:
+    secure: VOxYnWx/en38jCz2BjnPJ3MBSPO4UdrY8U/SR7EVm/H4pkR0j02W7lBIawHU2LPAmBT7tzqaXuQn2BXD1+n4QroEkpwHKNEBcvdDOlEFQ/PkhZrrCVl2m5OILlPGoW+lrDc0ILIB2cVPQ95D5V5vzlbrJSji/Ha34ljfHY7pqsbHOeW7HowqYfi5fR6Uz8EH3OEZ0VKwRCqfjqVUX7Z6HoPavyi3/AaA8bxh0S4s5JJpPwyFQPjHjcEZRnPSNTfLfJDzz/MkRO3HcndMzWp+VfkjEa12fevOvollx6DjWOKE/uPSkkvw9i+7kls9sQmX8fGbkwP0HNzFD3i74aiYSPH8LiBTpXgovjNqoxOedjoD9ur6GMNJna5sSgQ4feTZmdAHZMA0B3xItIIw/NTlBVTlsvX5zdPiXrgbNTsn+oZ+Fmtb2G8s1uzS48pvMLgXUIikuoVaLQPF2OZJkWlGQbvYlf5Fjok/r2UFo7RLQv5eqOOXpsuLT+WgtPGqCnehScnMiYHOhvbxFB7QCAJe+GZXcC5S9tACSNo+JEOQIHUakPIzyJ7kBZeKGWbAz1ZmZ1wPa/KaCb4xAQ14uDSsk7/FXk9MCYFaZLgKan8q+OZeMkkWZ+FwXh2ff67bCXv0Cqh8MovR857to4gSnhhNiTTyVzRrWvxlAANqMIxuufg=
+  on:
+    tags: true
+    repo: coreybutler/github-autotag
